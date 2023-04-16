@@ -4,7 +4,7 @@ ARG LOGIN=anonymous
 ARG ADMIN_STEAM_ID
 
 RUN dpkg --add-architecture i386
-RUN apt-get update && apt-get install -y git unzip unrar curl wget lib32gcc-s1
+RUN apt-get update && apt-get install -y git unzip unrar-free curl wget lib32gcc-s1
 
 # HLDS
 RUN mkdir -p /opt/steam
@@ -32,17 +32,17 @@ RUN ln -s /opt/steam/linux32 /root/.steam/sdk32
 WORKDIR /opt/hlds/cstrike
 RUN mkdir -p addons/metamod/dlls
 RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/metamod-bin-1.3.0.131.zip \
-    && unzip metamod-1.21.1-am.zip -d . \
+    && unzip metamod-bin-1.3.0.131.zip -d . \
     && rm -r example_plugin \
     && rm -r sdk \
-    && rm metamod-1.21.1-am.zip
+    && rm metamod-bin-1.3.0.131.zip
 
 RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/dlls\/metamod_i386.so\"/g" liblist.gam
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
 RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini
 RUN echo "linux addons/reunion/reunion_mm_i386.so" >> plugins.ini
-RUN echo "linux addons/vtc/vtc.so" >> plugins.ini
+RUN echo "linux addons/VoiceTranscoder/VoiceTranscoder.so" >> plugins.ini
 RUN echo "linux addons/reauthcheck/reauthcheck_mm_i386.so" >> plugins.ini
 RUN echo "linux addons/rechecker/rechecker_mm_i386.so" >> plugins.ini
 RUN echo "linux addons/whblocker/whblocker_mm_i386.so" >> plugins.ini
@@ -82,33 +82,35 @@ RUN wget https://github.com/s1lentq/ReGameDLL_CS/releases/download/5.21.0.576/re
     && rm regamedll-bin-5.21.0.576.zip
 
 # Voice Transcoder
-WORKDIR /opt/hlds/cstrike
+# || true is a fix for the ZIP using backslash separators.
+WORKDIR /opt/hlds/cstrike/addons
 RUN wget https://github.com/WPMGPRoSToTeMa/VoiceTranscoder/releases/download/v2017rc5/VoiceTranscoder_2017RC5.zip \
-    && unzip VoiceTranscoder_2017RC5.zip -d . \
+    && mkdir VoiceTranscoder \
+    && unzip -j VoiceTranscoder_2017RC5.zip -d VoiceTranscoder || true \
     && rm VoiceTranscoder_2017RC5.zip
 
 # ReAuthCheck
 WORKDIR /opt/hlds/cstrike
-RUN wget https://dev-cs.ru/resources/63/download \
-    && unrar reauthcheck_0.1.6.rar -d reauthcheck \
-    && cp -r reauthcheck/linux . \
-    && rm -r reauthcheck \
+RUN curl -O -J -L https://dev-cs.ru/resources/63/download \
+    && unrar reauthcheck_0.1.6.rar \
+    && cp -r linux/addons . \
+    && rm -r linux \
+    && rm -r windows \
     && rm reauthcheck_0.1.6.rar
 
 # ReChecker
-WORKDIR /opt/hlds/cstrike
-RUN wget https://dev-cs.ru/resources/72/download \
-    && unzip rechecker_2_7.zip -d rechecker \
-    && cp -r rechecker/bin . \
-    && rm -r rechecker \
+WORKDIR /opt/hlds/cstrike/addons
+RUN curl -O -J -L https://dev-cs.ru/resources/72/download \
+    && unzip rechecker_2_7.zip -d rechecker_data \
+    && mv rechecker_data/bin/addons/rechecker . \
+    && rm -r rechecker_data \
     && rm rechecker_2_7.zip
 
 # WHBlocker
 WORKDIR /opt/hlds/cstrike/addons
-RUN mkdir whblocker \
-    && wget https://dev-cs.ru/resources/76/download \
+RUN curl -O -J -L https://dev-cs.ru/resources/76/download \
     && unzip whblocker_1_5_697.zip -d whblocker_data \
-    && cp -r whblocker/whblocker_1_5_697/bin/linux whblocker \
+    && mv whblocker_data/whblocker_1_5_697/bin/linux whblocker \
     && rm -r whblocker_data \
     && rm whblocker_1_5_697.zip
 
@@ -116,7 +118,7 @@ RUN mkdir whblocker \
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
 RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
 
-RUN apt-get remove -y git unzip curl wget
+RUN apt-get remove -y git unzip curl wget unrar-free
 
 WORKDIR /opt/hlds
 
