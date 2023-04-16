@@ -30,14 +30,14 @@ RUN ln -s /opt/steam/linux32 /root/.steam/sdk32
 
 # Metamod-r
 WORKDIR /opt/hlds/cstrike
-RUN mkdir -p addons/metamod/dlls
+RUN mkdir -p addons/metamod
 RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/metamod-bin-1.3.0.131.zip \
     && unzip metamod-bin-1.3.0.131.zip -d . \
     && rm -r example_plugin \
     && rm -r sdk \
     && rm metamod-bin-1.3.0.131.zip
 
-RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/dlls\/metamod_i386.so\"/g" liblist.gam
+RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/metamod_i386.so\"/g" liblist.gam
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
 RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini
