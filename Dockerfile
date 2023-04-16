@@ -41,6 +41,7 @@ RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
 RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini
+RUN echo "linux addons/reunion/reunion_mm_i386.so" >> plugins.ini
 RUN echo "linux addons/vtc/vtc.so" >> plugins.ini
 
 # AMX Mod X
@@ -56,15 +57,36 @@ RUN wget https://github.com/dreamstalker/rehlds/releases/download/3.12.0.780/reh
     && rm -r rehlds \
     && rm rehlds-bin-3.12.0.780.zip
 
-# Add admin user
-WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
-RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
+# ReAPI
+WORKDIR /opt/hlds/cstrike
+RUN wget https://github.com/s1lentq/reapi/releases/download/5.22.0.254/reapi-bin-5.22.0.254.zip \
+    && unzip reapi-bin-5.22.0.254.zip -d . \
+    && rm reapi-bin-5.22.0.254.zip
+
+# Reunion
+WORKDIR /opt/hlds/cstrike/addons
+RUN mkdir reunion
+
+WORKDIR /opt/hlds/cstrike/addons/reunion
+ADD files/reunion_mm_i386.so reunion_mm_i386.so
+
+# ReGame DLL
+WORKDIR /opt/hlds
+RUN wget https://github.com/s1lentq/ReGameDLL_CS/releases/download/5.21.0.576/regamedll-bin-5.21.0.576.zip \
+    && unzip regamedll-bin-5.21.0.576.zip -d regamedll \
+    && cp -r regamedll/bin/linux32 . \
+    && rm -r regamedll \
+    && rm regamedll-bin-5.21.0.576.zip
 
 # Voice Transcoder
 WORKDIR /opt/hlds/cstrike
 RUN wget https://github.com/WPMGPRoSToTeMa/VoiceTranscoder/releases/download/v2017rc5/VoiceTranscoder_2017RC5.zip \
     && unzip VoiceTranscoder_2017RC5.zip -d . \
     && rm VoiceTranscoder_2017RC5.zip
+
+# Add admin user
+WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
+RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
 
 RUN apt-get remove -y git unzip curl wget
 
