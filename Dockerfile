@@ -96,6 +96,7 @@ RUN wget https://dev-cs.ru/resources/63/download \
     && rm reauthcheck_0.1.6.rar
 
 # ReChecker
+WORKDIR /opt/hlds/cstrike
 RUN wget https://dev-cs.ru/resources/72/download \
     && unzip rechecker_2_7.zip -d rechecker \
     && cp -r rechecker/bin . \
