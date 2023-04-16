@@ -39,15 +39,7 @@ RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
 RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini
-RUN echo "linux addons/dproto/dproto_i386.so" >> plugins.ini
-
-# Dproto
-WORKDIR /opt/hlds/cstrike
-RUN git clone https://github.com/BloodSharp/dproto-0.4.8p.git \
-    && mkdir -p addons/dproto \
-    && cp dproto-0.4.8p/bin/Linux/dproto_i386.so addons/dproto/dproto_i386.so \
-    && cp dproto-0.4.8p/dproto.cfg dproto.cfg \
-    && rm -r dproto-0.4.8p
+RUN echo "linux addons/vtc/vtc.so" >> plugins.ini
 
 # AMX Mod X
 WORKDIR /opt/hlds/cstrike
@@ -65,6 +57,12 @@ RUN wget https://github.com/dreamstalker/rehlds/releases/download/3.12.0.780/reh
 # Add admin user
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
 RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
+
+# Voice Transcoder
+WORKDIR /opt/hlds/cstrike
+RUN wget https://files.gamebanana.com/mods/voicetranscoder80_1_.zip \
+    && unzip voicetranscoder80_1_.zip -d . \
+    && rm voicetranscoder80_1_.zip
 
 RUN apt-get remove -y git unzip curl wget
 
