@@ -16,10 +16,10 @@ RUN mkdir -p /opt/hlds
 
 WORKDIR /opt/steam
 # Trick to correctly get all the files.
-RUN ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 90 validate +quit || true
-RUN ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 70 validate +quit || true
-RUN ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 10 validate +quit || true
-RUN ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 90 validate +quit || true
+RUN ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 90 validate +quit || true; \
+    ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 70 validate +quit || true; \
+    ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 10 validate +quit || true; \
+    ./steamcmd.sh +force_install_dir /opt/hlds +login $LOGIN +app_update 90 validate +quit || true
 
 WORKDIR /opt/hlds
 RUN echo "10" > steam_appid.txt
@@ -40,12 +40,12 @@ RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/met
 RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/metamod_i386.so\"/g" liblist.gam
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
-RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini
-RUN echo "linux addons/reunion/reunion_mm_i386.so" >> plugins.ini
-RUN echo "linux addons/VoiceTranscoder/VoiceTranscoder.so" >> plugins.ini
-RUN echo "linux addons/reauthcheck/reauthcheck_mm_i386.so" >> plugins.ini
-RUN echo "linux addons/rechecker/rechecker_mm_i386.so" >> plugins.ini
-RUN echo "linux addons/whblocker/whblocker_mm_i386.so" >> plugins.ini
+RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini \
+    && echo "linux addons/reunion/reunion_mm_i386.so" >> plugins.ini \
+    && echo "linux addons/VoiceTranscoder/VoiceTranscoder.so" >> plugins.ini \
+    && echo "linux addons/reauthcheck/reauthcheck_mm_i386.so" >> plugins.ini \
+    && echo "linux addons/rechecker/rechecker_mm_i386.so" >> plugins.ini \
+    && echo "linux addons/whblocker/whblocker_mm_i386.so" >> plugins.ini
 
 # AMX Mod X
 WORKDIR /opt/hlds/cstrike
@@ -74,10 +74,10 @@ WORKDIR /opt/hlds/cstrike/addons/reunion
 ADD files/reunion_mm_i386.so reunion_mm_i386.so
 
 # ReGame DLL
-WORKDIR /opt/hlds
+WORKDIR /opt/hlds/cstrike/dlls
 RUN wget https://github.com/s1lentq/ReGameDLL_CS/releases/download/5.21.0.576/regamedll-bin-5.21.0.576.zip \
     && unzip regamedll-bin-5.21.0.576.zip -d regamedll \
-    && cp -r regamedll/bin/linux32 . \
+    && mv -f regamedll/bin/linux32/cstrike/dlls/cs.so cs.so \
     && rm -r regamedll \
     && rm regamedll-bin-5.21.0.576.zip
 
