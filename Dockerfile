@@ -46,8 +46,8 @@ RUN echo "linux addons/vtc/vtc.so" >> plugins.ini
 
 # AMX Mod X
 WORKDIR /opt/hlds/cstrike
-RUN curl -sqL https://www.amxmodx.org/release/amxmodx-1.8.2-base-linux.tar.gz | tar -zxvf - \
-    && curl -sqL https://www.amxmodx.org/release/amxmodx-1.8.2-cstrike-linux.tar.gz | tar -zxvf -
+RUN curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-base-linux.tar.gz | tar -zxvf - \
+    && curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-cstrike-linux.tar.gz | tar -zxvf -
 
 # ReHLDS
 WORKDIR /opt/hlds
