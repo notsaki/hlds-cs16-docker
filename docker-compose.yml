@@ -9,5 +9,4 @@ services:
     ports:
       - "27015:27015"
     environment:
-      - "LOGIN=anonymous"
       - "ADMIN_STEAM_ID=STEAM_0:1:12345678"

@@ -12,7 +12,7 @@ ENV HOME_SDK_DIR=/root/.steam/sdk32
 
 ENV STEAMCMD=$STEAM_DIR/steamcmd.sh
 
-RUN apt-get update && apt-get install -y git unzip curl
+RUN apt-get update && apt-get install -y git unzip curl wget
 
 # Metamod
 RUN mkdir -p $METAMOD_DIR/dlls
@@ -40,4 +40,12 @@ RUN cd $CSTRIKE_DIR \
 # Add admin user
 RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> $AMXMODX_DIR/configs/users.ini
 
-RUN apt-get remove -y git unzip curl
+# ReHLDS
+ENV REHLDS_FILE=rehlds-bin-3.12.0.780.zip
+RUN wget https://github.com/dreamstalker/rehlds/releases/download/3.12.0.780/$REHLDS_FILE \
+    && unzip $REHLDS_FILE -d ./rehlds \
+    && cp -r rehlds/bin/linux32 $HLDS_DIR \
+    && rm -r rehlds \
+    && rm $REHLDS_FILE
+
+RUN apt-get remove -y git unzip curl wget
