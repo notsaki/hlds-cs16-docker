@@ -1,12 +1,8 @@
-FROM debian:stable
+FROM febley/counter-strike_server:latest
 
-ARG LOGIN=anonymous
 ARG ADMIN_STEAM_ID
 
-ENV OPT=/opt
-
-ENV STEAM_DIR=$OPT/steam
-ENV HLDS_DIR=$OPT/hlds
+ENV HLDS_DIR=/hlds
 ENV CSTRIKE_DIR=$HLDS_DIR/cstrike
 ENV ADDONS_DIR=$CSTRIKE_DIR/addons
 ENV AMXMODX_DIR=$ADDONS_DIR/amxmodx
@@ -16,25 +12,7 @@ ENV HOME_SDK_DIR=/root/.steam/sdk32
 
 ENV STEAMCMD=$STEAM_DIR/steamcmd.sh
 
-RUN apt-get update && apt-get install -y git unzip curl lib32gcc-s1
-
-# HLDS
-RUN mkdir -p $STEAM_DIR \
-    && cd $STEAM_DIR \
-    && curl -sqL "https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz" | tar zxvf -
-
-RUN mkdir -p $HLDS_DIR
-
-RUN $STEAMCMD +force_install_dir $HLDS_DIR +login $LOGIN +app_update 90 validate +quit || :
-RUN $STEAMCMD +force_install_dir $HLDS_DIR +login $LOGIN +app_update 70 validate +quit || :
-RUN $STEAMCMD +force_install_dir $HLDS_DIR +login $LOGIN +app_update 10 validate +quit || :
-RUN $STEAMCMD +force_install_dir $HLDS_DIR +login $LOGIN +app_update 90 validate +quit || :
-
-RUN echo "10" > $HLDS_DIR/steam_appid.txt
-
-# dlopen failed trying to load: steamclient.so
-RUN mkdir -p $HOME_SDK_DIR \
-    && cp $STEAM_DIR/linux32/steamclient.so $HOME_SDK_DIR/steamclient.so
+RUN apt-get update && apt-get install -y git unzip curl
 
 # Metamod
 RUN mkdir -p $METAMOD_DIR/dlls
@@ -62,10 +40,4 @@ RUN cd $CSTRIKE_DIR \
 # Add admin user
 RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> $AMXMODX_DIR/configs/users.ini
 
-RUN apt remove -y unzip curl
-
-VOLUME $HLDS_DIR
-WORKDIR $HLDS_DIR
-EXPOSE 27015
-
-ENTRYPOINT ["./hlds_run", "-game", "cstrike", "-port", "27015", "-map", "de_dust2", "+hostname", "-steam", "disabled"]
+RUN apt-get remove -y git unzip curl
