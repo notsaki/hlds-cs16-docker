@@ -10,7 +10,7 @@ ENV CSTRIKE_DIR=$HLDS_DIR/cstrike
 ENV ADDONS_DIR=$CSTRIKE_DIR/addons
 ENV AMXMODX_DIR=$ADDONS_DIR/amxmodx
 ENV METAMOD_DIR=$CSTRIKE_DIR/addons/metamod
-ENV STEAM_HOME=~/.steam
+ENV HOME_SDK_DIR=~/.steam/sdk32
 
 ENV STEAMCMD=$STEAM_DIR/steamcmd.sh
 
@@ -29,6 +29,10 @@ RUN $STEAMCMD +force_install_dir $HLDS_DIR +login $LOGIN +app_update 10 validate
 RUN $STEAMCMD +force_install_dir $HLDS_DIR +login $LOGIN +app_update 90 validate +quit || :
 
 RUN echo "10" > $HLDS_DIR/steam_appid.txt
+
+# dlopen failed trying to load: steamclient.so
+RUN mkdir -p $HOME_SDK_DIR \
+    && ln -s $STEAM_DIR/linux32/steamclient.so $HOME_SDK_DIR/steamclient.so
 
 # Metamod
 RUN mkdir -p $METAMOD_DIR/dlls
