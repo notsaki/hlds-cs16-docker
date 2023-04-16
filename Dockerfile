@@ -4,7 +4,7 @@ ARG LOGIN=anonymous
 ARG ADMIN_STEAM_ID
 
 RUN dpkg --add-architecture i386
-RUN apt-get update && apt-get install -y git unzip curl wget lib32gcc-s1
+RUN apt-get update && apt-get install -y git unzip unrar curl wget lib32gcc-s1
 
 # HLDS
 RUN mkdir -p /opt/steam
@@ -43,6 +43,9 @@ WORKDIR /opt/hlds/cstrike/addons/metamod
 RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini
 RUN echo "linux addons/reunion/reunion_mm_i386.so" >> plugins.ini
 RUN echo "linux addons/vtc/vtc.so" >> plugins.ini
+RUN echo "linux addons/reauthcheck/reauthcheck_mm_i386.so" >> plugins.ini
+RUN echo "linux addons/rechecker/rechecker_mm_i386.so" >> plugins.ini
+RUN echo "linux addons/whblocker/whblocker_mm_i386.so" >> plugins.ini
 
 # AMX Mod X
 WORKDIR /opt/hlds/cstrike
@@ -83,6 +86,30 @@ WORKDIR /opt/hlds/cstrike
 RUN wget https://github.com/WPMGPRoSToTeMa/VoiceTranscoder/releases/download/v2017rc5/VoiceTranscoder_2017RC5.zip \
     && unzip VoiceTranscoder_2017RC5.zip -d . \
     && rm VoiceTranscoder_2017RC5.zip
+
+# ReAuthCheck
+WORKDIR /opt/hlds/cstrike
+RUN wget https://dev-cs.ru/resources/63/download \
+    && unrar reauthcheck_0.1.6.rar -d reauthcheck \
+    && cp -r reauthcheck/linux . \
+    && rm -r reauthcheck \
+    && rm reauthcheck_0.1.6.rar
+
+# ReChecker
+RUN wget https://dev-cs.ru/resources/72/download \
+    && unzip rechecker_2_7.zip -d rechecker \
+    && cp -r rechecker/bin . \
+    && rm -r rechecker \
+    && rm rechecker_2_7.zip
+
+# WHBlocker
+WORKDIR /opt/hlds/cstrike/addons
+RUN mkdir whblocker \
+    && wget https://dev-cs.ru/resources/76/download \
+    && unzip whblocker_1_5_697.zip -d whblocker_data \
+    && cp -r whblocker/whblocker_1_5_697/bin/linux whblocker \
+    && rm -r whblocker_data \
+    && rm whblocker_1_5_697.zip
 
 # Add admin user
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
