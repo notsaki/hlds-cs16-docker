@@ -25,6 +25,7 @@ WORKDIR /opt/hlds
 RUN echo "10" > steam_appid.txt
 
 # dlopen failed trying to load: steamclient.so
+RUN mkdir -p /root/.steam
 RUN ln -s /opt/steam/linux32 /root/.steam/sdk32
 
 # Metamod
