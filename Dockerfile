@@ -28,11 +28,13 @@ RUN echo "10" > steam_appid.txt
 RUN mkdir -p /root/.steam
 RUN ln -s /opt/steam/linux32 /root/.steam/sdk32
 
-# Metamod
+# Metamod-r
 WORKDIR /opt/hlds/cstrike
 RUN mkdir -p addons/metamod/dlls
-RUN wget https://www.amxmodx.org/release/metamod-1.21.1-am.zip \
+RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/metamod-bin-1.3.0.131.zip \
     && unzip metamod-1.21.1-am.zip -d . \
+    && rm -r example_plugin \
+    && rm -r sdk \
     && rm metamod-1.21.1-am.zip
 
 RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/dlls\/metamod_i386.so\"/g" liblist.gam
@@ -60,9 +62,9 @@ RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
 
 # Voice Transcoder
 WORKDIR /opt/hlds/cstrike
-RUN wget https://files.gamebanana.com/mods/voicetranscoder80_1_.zip \
-    && unzip voicetranscoder80_1_.zip -d . \
-    && rm voicetranscoder80_1_.zip
+RUN wget https://github.com/WPMGPRoSToTeMa/VoiceTranscoder/releases/download/v2017rc5/VoiceTranscoder_2017RC5.zip \
+    && unzip VoiceTranscoder_2017RC5.zip -d . \
+    && rm VoiceTranscoder_2017RC5.zip
 
 RUN apt-get remove -y git unzip curl wget
 
