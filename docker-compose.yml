@@ -1,7 +1,7 @@
 version: "3.3"
 
 services:
-  cs16-mix:
+  hlds-cs16:
     image: tsaki/hlds-cs16
     build:
       context: .
@@ -12,3 +12,7 @@ services:
     environment:
       - "LOGIN=anonymous"
       - "ADMIN_STEAM_ID=STEAM_0:1:12345678"
+      - "SV_LAN=0"
+      - "MAP=de_dust2"
+      - "MAX_PLAYERS=32"
+      - "OPTIONS=-insecure"

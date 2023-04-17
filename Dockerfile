@@ -3,6 +3,11 @@ FROM debian:stable
 ARG LOGIN=anonymous
 ARG ADMIN_STEAM_ID
 
+ARG SV_LAN=0
+ARG MAP=de_dust2
+ARG MAX_PLAYERS=32
+ARG OPTIONS
+
 RUN dpkg --add-architecture i386
 RUN apt-get update && apt-get install -y git unzip unrar-free curl wget lib32gcc-s1
 
@@ -82,7 +87,7 @@ RUN wget https://github.com/s1lentq/ReGameDLL_CS/releases/download/5.21.0.576/re
     && rm regamedll-bin-5.21.0.576.zip
 
 # Voice Transcoder
-# || true is a fix for the ZIP using backslash separators.
+# || true is a fix for the ZIP using backslash separators causing a non-zero exit code.
 WORKDIR /opt/hlds/cstrike/addons
 RUN wget https://github.com/WPMGPRoSToTeMa/VoiceTranscoder/releases/download/v2017rc5/VoiceTranscoder_2017RC5.zip \
     && mkdir VoiceTranscoder \
@@ -116,14 +121,17 @@ RUN curl -O -J -L https://dev-cs.ru/resources/76/download \
 
 # Add admin user
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
-RUN echo "$ADMIN_STEAM_ID \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
+# Clean-up users.ini file before adding the admin.
+RUN sed '/loopback/d' users.ini \
+    && sed '/STEAM/d' users.ini \
+    && echo "\"$ADMIN_STEAM_ID\" \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
 
 RUN apt-get remove -y git unzip curl wget unrar-free
-
-WORKDIR /opt/hlds
 
 EXPOSE 27015
 EXPOSE 27015/udp
 VOLUME /opt/hlds
 
-ENTRYPOINT ["./hlds_run", "-game", "cstrike", "-ip", "0.0.0.0", "-port", "27015", "+hostname", "-steam", "disabled"]
+WORKDIR /opt/hlds
+
+ENTRYPOINT ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port 27015 +sv_lan $SV_LAN +map $MAP -maxplayers $MAX_PLAYERS $OPTIONS
