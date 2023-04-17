@@ -123,8 +123,10 @@ RUN curl -O -J -L https://dev-cs.ru/resources/76/download \
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
 # Clean-up users.ini file before adding the admin.
 RUN sed '/loopback/d' users.ini \
-    && sed '/STEAM/d' users.ini \
-    && echo "\"$ADMIN_STEAM_ID\" \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
+    && sed '/STEAM/d' users.ini
+
+# Add admin only if $ADMIN_STEAM_ID is defined.
+RUN if [[ -z $ADMIN_STEAM_ID ]]; then echo "\"$ADMIN_STEAM_ID\" \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini; fi
 
 RUN apt-get remove -y git unzip curl wget unrar-free
 
