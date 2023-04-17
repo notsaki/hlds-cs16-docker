@@ -16,3 +16,5 @@ services:
       - "MAP=de_dust2"
       - "MAX_PLAYERS=32"
       - "OPTIONS=-insecure"
+    volumes:
+      - "hlds-cs16:/opt/hlds"
