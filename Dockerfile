@@ -56,7 +56,7 @@ RUN curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-base-
 WORKDIR /opt/hlds
 RUN wget https://github.com/dreamstalker/rehlds/releases/download/3.12.0.780/rehlds-bin-3.12.0.780.zip \
     && unzip rehlds-bin-3.12.0.780.zip -d ./rehlds \
-    && cp -r rehlds/bin/linux32 . \
+    && cp -r rehlds/bin/linux32/* . \
     && rm -r rehlds \
     && rm rehlds-bin-3.12.0.780.zip
 
