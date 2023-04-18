@@ -11,17 +11,16 @@ RUN wget https://forums.alliedmods.net/attachment.php?attachmentid=119170 -O aut
     && rm -r automix \
     && rm automix.zip
 
+# Compile the plugins.
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/scripting
 # Replace less with cat to prevent the script from getting stuck.
 RUN sed -i "s/less temp.txt/cat temp.txt/g" compile.sh \
     && ./compile.sh stats_pug.sma pimpspug.sma \
-
-WORKDIR /opt/hlds/cstrike/addons/amxmodx/scripting/compiled
-RUN mv /stats_pug.amxx ../../plugins/stats_pug.amxx \
-    && mv /pimpspug.amxx ../../plugins/pimpspug.amxx
+    && mv ./compiled/stats_pug.amxx ../plugins/stats_pug.amxx \
+    && mv ./compiled/pimpspug.amxx ../plugins/pimpspug.amxx
 
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
-RUN echo "stats_pug.amxx \
+RUN echo -e "stats_pug.amxx\n\
     pimpspug.amxx" >> plugins.ini
 
 # Add more maps.
@@ -73,7 +72,7 @@ de_train\n\
 de_tuscan\n\
 de_vertigo" > mapcycle.txt
 
-# Add all maps to the map pool of the plugin.
+# Create a map pool over mapcycle.
 WORKDIR /opt/hlds/cstrike
 RUN cp mapcycle.txt addons/amxmodx/configs/maps.ini
 
