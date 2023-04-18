@@ -21,7 +21,7 @@ RUN sed -i "s/less temp.txt/cat temp.txt/g" compile.sh \
 
 WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
 RUN echo -e "stats_pug.amxx\n\
-    pimpspug.amxx" >> plugins.ini
+pimpspug.amxx" >> plugins.ini
 
 # Add more maps.
 
