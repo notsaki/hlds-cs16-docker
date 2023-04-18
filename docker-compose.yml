@@ -12,10 +12,7 @@ services:
     environment:
       - "LOGIN=anonymous"
       - "ADMIN_STEAM_ID=STEAM_0:1:12345678"
-      - "SV_LAN=0"
-      - "MAP=de_dust2"
-      - "MAX_PLAYERS=32"
-      - "OPTIONS=-insecure"
+      - "LAUNCH_OPTIONS=+sv_lan 0 +map de_dust2 -maxplayers 32"
     volumes:
       - "hlds-cs16:/opt/hlds"
 
