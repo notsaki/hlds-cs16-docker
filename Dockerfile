@@ -1,4 +1,5 @@
 FROM debian:stable
+LABEL authors=tsaki
 
 ARG LOGIN=anonymous
 ARG ADMIN_STEAM_ID=STEAM_0:1:12345678
@@ -120,6 +121,23 @@ WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
 # Clean-up users.ini file before adding the admin.
 RUN sed -i "/loopback/d" users.ini \
     && echo "\"$ADMIN_STEAM_ID\" \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
+
+# Add all maps to the map cycle.
+WORKDIR /opt/hlds/cstrike
+RUN echo -e "cs_assault\n\
+cs_italy\n\
+cs_militia\n\
+cs_office\n\
+de_aztec\n\
+de_dust\n\
+de_dust2\n\
+de_inferno\n\
+de_nuke\n\
+de_piranesi\n\
+de_prodigy\n\
+de_torn\n\
+de_train\n\
+de_vertigo" > mapcycle.txt
 
 RUN apt-get remove -y git unzip curl wget unrar-free
 

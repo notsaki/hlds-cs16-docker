@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  hlds-cs16-auto-mix:
+    image: tsaki/hlds-cs16-auto-mix
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "27015:27015/udp"
+      - "27015:27015"
+    environment:
+      - "LOGIN=anonymous"
+      - "ADMIN_STEAM_ID=STEAM_0:1:12345678"
+      - "LAUNCH_OPTIONS=+sv_lan 0 +map de_dust2 -maxplayers 11"
+    volumes:
+      - "hlds-cs16-auto-mix:/opt/hlds"
+
+volumes:
+  hlds-cs16-auto-mix:
