@@ -2,7 +2,6 @@ FROM debian:stable
 LABEL authors=tsaki
 
 ARG LOGIN=anonymous
-ARG ADMIN_STEAM_ID=STEAM_0:1:12345678
 ARG LAUNCH_OPTIONS="+sv_lan 0 +map de_dust2 -maxplayers 32"
 
 RUN dpkg --add-architecture i386
@@ -42,12 +41,7 @@ RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/met
 RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/metamod_i386.so\"/g" liblist.gam
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
-RUN echo "linux addons/amxmodx/dlls/amxmodx_mm_i386.so" > plugins.ini \
-    && echo "linux addons/reunion/reunion_mm_i386.so" >> plugins.ini \
-    && echo "linux addons/VoiceTranscoder/VoiceTranscoder.so" >> plugins.ini \
-    && echo "linux addons/reauthcheck/reauthcheck_mm_i386.so" >> plugins.ini \
-    && echo "linux addons/rechecker/rechecker_mm_i386.so" >> plugins.ini \
-    && echo "linux addons/whblocker/whblocker_mm_i386.so" >> plugins.ini
+ADD plugins.ini .
 
 # AMX Mod X
 WORKDIR /opt/hlds/cstrike
@@ -116,28 +110,12 @@ RUN curl -O -J -L https://dev-cs.ru/resources/76/download \
     && rm -r whblocker_data \
     && rm whblocker_1_5_697.zip
 
-# Add admin user
-WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
-# Clean-up users.ini file before adding the admin.
-RUN sed -i "/loopback/d" users.ini \
-    && echo "\"$ADMIN_STEAM_ID\" \"abcdefghijklmnopqrstu\" \"ce\"" >> users.ini
+# Add user permissions.
+ADD files/users.ini /opt/hlds/cstrike/addons/amxmodx/configs
 
 # Add all maps to the map cycle.
 WORKDIR /opt/hlds/cstrike
-RUN echo -e "cs_assault\n\
-cs_italy\n\
-cs_militia\n\
-cs_office\n\
-de_aztec\n\
-de_dust\n\
-de_dust2\n\
-de_inferno\n\
-de_nuke\n\
-de_piranesi\n\
-de_prodigy\n\
-de_torn\n\
-de_train\n\
-de_vertigo" > mapcycle.txt
+ADD files/mapcycle.txt mapcycle.txt
 
 RUN apt-get remove -y git unzip curl wget unrar-free
 

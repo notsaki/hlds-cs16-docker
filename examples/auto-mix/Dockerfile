@@ -58,23 +58,15 @@ RUN wget https://gamebanana.com/dl/320703 \
 
 # Update mapcycle.
 WORKDIR /opt/hlds/cstrike
-RUN echo -e "de_aztec\n\
-de_cpl_mill\n\
-de_dust\n\
-de_dust2\n\
-de_inferno\n\
-de_lite\n\
-de_nuke\n\
-de_piranesi\n\
-de_russka\n\
-de_torn\n\
-de_train\n\
-de_tuscan\n\
-de_vertigo" > mapcycle.txt
+ADD mapcycle.txt .
 
 # Create a map pool over mapcycle.
 WORKDIR /opt/hlds/cstrike
 RUN cp mapcycle.txt addons/amxmodx/configs/maps.ini
+
+# Add user permissions.
+WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
+ADD users.ini .
 
 RUN apt-get remove wget unzip p7zip-full
 
