@@ -27,33 +27,33 @@ pimpspug.amxx" >> plugins.ini
 
 # de_cpl_mill
 WORKDIR /opt/hlds
-RUN wget https://gamebanana.com/dl/317605  \
-    && unzip 317605  \
+RUN wget https://gamebanana.com/dl/317605 \
+    && unzip 317605 \
     && rm 317605
 
 # de_russka
 WORKDIR /opt/hlds
-RUN wget https://gamebanana.com/dl/316613  \
-    && unzip 316613  \
+RUN wget https://gamebanana.com/dl/316613 \
+    && unzip 316613 \
     && rm brutesmaps_readme.txt \
     && rm 316613
 
 # de_lite
 WORKDIR /opt/hlds/cstrike
-RUN wget https://gamebanana.com/dl/298586  \
-    && 7za x 298586  \
+RUN wget https://gamebanana.com/dl/298586 \
+    && 7za x 298586 \
     && rm 298586
 
 # de_cpl_strike
 WORKDIR /opt/hlds
-RUN wget https://gamebanana.com/dl/318354  \
-    && unzip 320703  \
-    && rm 320703
+RUN wget https://gamebanana.com/dl/318354 \
+    && unzip 318354  \
+    && rm 318354
 
 # de_tuscan
 WORKDIR /opt/hlds
-RUN wget https://gamebanana.com/dl/320703  \
-    && unzip 320703  \
+RUN wget https://gamebanana.com/dl/320703 \
+    && unzip 320703 \
     && rm 320703
 
 # Update mapcycle.
