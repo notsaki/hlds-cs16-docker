@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
   hlds-cs16-auto-mix:
+    container_name: hlds-cs16-auto-mix
     image: tsaki/hlds-cs16-auto-mix
     build:
       context: .

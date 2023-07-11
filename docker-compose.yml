@@ -2,6 +2,7 @@ version: "3.3"
 
 services:
   hlds-cs16:
+    container_name: hlds-cs16
     image: tsaki/hlds-cs16
     build:
       context: .
