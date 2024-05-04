@@ -5,7 +5,7 @@ ARG LOGIN=anonymous
 ARG LAUNCH_OPTIONS="+sv_lan 0 +map de_dust2 -maxplayers 32"
 
 RUN dpkg --add-architecture i386
-RUN apt-get update && apt-get install -y git unzip unrar-free curl wget lib32gcc-s1
+RUN apt-get update && apt-get install -y git unzip unrar-free curl wget lib32stdc++6
 
 # HLDS
 RUN mkdir -p /opt/steam
