@@ -13,7 +13,8 @@ RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/met
     && rm -r sdk \
     && rm metamod-bin-1.3.0.131.zip
 
-RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/gamedll_linux \"addons\/metamod\/metamod_i386.so\"/g" liblist.gam
+RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/\/\/gamedll_linux \"dlls\/cs.so\"/g" liblist.gam
+RUN echo "\ngamedll_linux \"addons\/metamod\/metamod_i386.so\"" > liblist.gam
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
 ADD plugins.ini .
