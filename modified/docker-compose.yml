@@ -5,7 +5,7 @@ services:
     container_name: hlds-cs16-modified
     image: tsaki/hlds-cs16-modified
     build:
-      context: ../
+      context: .
       dockerfile: modified/Dockerfile
     ports:
       - "27015:27015/udp"

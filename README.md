@@ -14,15 +14,15 @@
 
 ## Build the base image
 
-- `docker build -t tsaki/hlds-cs16 .`
+- `cd base && docker build -t tsaki/hlds-cs16 .`
 
 ## Build the AMX Mod X image
 
-- `docker build -t tsaki/hlds-cs16 .`.
-- `cd amxmodx && docker build -t tsaki/hlds-cs16-amxmodx .`.
+- `cd base && docker build -t tsaki/hlds-cs16 .`.
+- `cd ../amxmodx && docker build -t tsaki/hlds-cs16-amxmodx .`.
 
 ## Build the modified image
 
-- `docker build -t tsaki/hlds-cs16 .`.
-- `cd amxmodx && docker build -t tsaki/hlds-cs16-amxmodx .`.
-- `cd modified && docker build -t tsaki/hlds-cs16-modified .`.
+- `cd base && docker build -t tsaki/hlds-cs16 .`.
+- `cd ../amxmodx && docker build -t tsaki/hlds-cs16-amxmodx .`.
+- `cd ../modified && docker build -t tsaki/hlds-cs16-modified .`.

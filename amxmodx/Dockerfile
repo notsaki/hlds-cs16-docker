@@ -9,10 +9,8 @@ RUN apt-get install unzip curl wget -y
 WORKDIR /opt/hlds/cstrike
 RUN mkdir -p addons/metamod
 RUN wget https://www.amxmodx.org/release/metamod-1.21.1-am.zip \
-    && unzip metamod-bin-1.3.0.131.zip -d . \
-    && rm -r example_plugin \
-    && rm -r sdk \
-    && rm metamod-bin-1.3.0.131.zip
+    && unzip metamod-1.21.1-am.zip -d . \
+    && rm metamod-1.21.1-am.zip
 
 # Backup liblist to make it overridable.
 RUN cp liblist.gam liblist.gam.bak
@@ -26,6 +24,9 @@ ADD plugins.ini .
 WORKDIR /opt/hlds/cstrike
 RUN curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-base-linux.tar.gz | tar -zxvf - \
     && curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-cstrike-linux.tar.gz | tar -zxvf -
+
+# Add user permissions.
+ADD users.ini /opt/hlds/cstrike/addons/amxmodx/configs
 
 RUN apt-get remove unzip curl wget -y
 
