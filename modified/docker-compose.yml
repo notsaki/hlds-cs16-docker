@@ -1,0 +1,20 @@
+version: "3.3"
+
+services:
+  hlds-cs16:
+    container_name: hlds-cs16-modified
+    image: tsaki/hlds-cs16-modified
+    build:
+      context: ../
+      dockerfile: modified/Dockerfile
+    ports:
+      - "27015:27015/udp"
+      - "27015:27015"
+    environment:
+      - "LOGIN=anonymous"
+      - "LAUNCH_OPTIONS=+sv_lan 0 +map de_dust2 -maxplayers 32"
+    volumes:
+      - "hlds-cs16:/opt/hlds"
+
+volumes:
+  hlds-cs16:
