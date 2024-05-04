@@ -1,4 +1,4 @@
-FROM hlds-cs16
+FROM tsaki/hlds-cs16-amxmodx
 LABEL authors=tsaki
 
 # ReHLDS
