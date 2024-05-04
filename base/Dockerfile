@@ -5,7 +5,7 @@ ARG LOGIN=anonymous
 ARG LAUNCH_OPTIONS="+sv_lan 0 +map de_dust2 -maxplayers 32"
 
 RUN dpkg --add-architecture i386
-RUN apt-get update && apt-get install -y git lib32stdc++6
+RUN apt-get update && apt-get install -y git curl lib32stdc++6
 
 # HLDS
 RUN mkdir -p /opt/steam
@@ -33,7 +33,7 @@ RUN ln -s /opt/steam/linux32 /root/.steam/sdk32
 WORKDIR /opt/hlds/cstrike
 ADD mapcycle.txt mapcycle.txt
 
-RUN apt-get remove -y git
+RUN apt-get remove -y git curl
 
 EXPOSE 27015
 EXPOSE 27015/udp
