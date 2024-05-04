@@ -15,7 +15,7 @@ RUN wget https://www.amxmodx.org/release/metamod-1.21.1-am.zip \
 # Backup liblist to make it overridable.
 RUN cp liblist.gam liblist.gam.bak
 RUN sed -i -E "s/gamedll_linux/\/\/gamedll_linux/g" liblist.gam
-RUN echo "\ngamedll_linux \"addons\/metamod\/dlls\/metamod.so\"" >> liblist.gam
+RUN echo "gamedll_linux \"addons/metamod/dlls/metamod.so\"" >> liblist.gam
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
 ADD plugins.ini .
