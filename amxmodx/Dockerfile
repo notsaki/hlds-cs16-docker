@@ -1,20 +1,23 @@
 FROM tsaki/hlds-cs16
 LABEL authors=tsaki
 
-ARG LOGIN=anonymous
 ARG LAUNCH_OPTIONS="+sv_lan 0 +map de_dust2 -maxplayers 32"
 
-# Metamod-r
+RUN apt-get install unzip curl wget -y
+
+# Metamod
 WORKDIR /opt/hlds/cstrike
 RUN mkdir -p addons/metamod
-RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/metamod-bin-1.3.0.131.zip \
+RUN wget https://www.amxmodx.org/release/metamod-1.21.1-am.zip \
     && unzip metamod-bin-1.3.0.131.zip -d . \
     && rm -r example_plugin \
     && rm -r sdk \
     && rm metamod-bin-1.3.0.131.zip
 
-RUN sed -i -E "s/gamedll_linux \"dlls\/cs.so\"/\/\/gamedll_linux \"dlls\/cs.so\"/g" liblist.gam
-RUN echo "\ngamedll_linux \"addons\/metamod\/metamod_i386.so\"" > liblist.gam
+# Backup liblist to make it overridable.
+RUN cp liblist.gam liblist.gam.bak
+RUN sed -i -E "s/gamedll_linux/\/\/gamedll_linux/g" liblist.gam
+RUN echo "\ngamedll_linux \"addons\/metamod\/metamod.so\"" >> liblist.gam
 
 WORKDIR /opt/hlds/cstrike/addons/metamod
 ADD plugins.ini .
@@ -23,6 +26,8 @@ ADD plugins.ini .
 WORKDIR /opt/hlds/cstrike
 RUN curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-base-linux.tar.gz | tar -zxvf - \
     && curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-cstrike-linux.tar.gz | tar -zxvf -
+
+RUN apt-get remove unzip curl wget -y
 
 EXPOSE 27015
 EXPOSE 27015/udp

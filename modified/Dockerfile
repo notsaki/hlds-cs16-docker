@@ -1,6 +1,23 @@
 FROM tsaki/hlds-cs16-amxmodx
 LABEL authors=tsaki
 
+# Currently not working.
+
+RUN apt-get install unzip unrar-free curl wget -y
+
+# Metamod-r
+WORKDIR /opt/hlds/cstrike
+RUN mkdir -p addons/metamod
+RUN wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/metamod-bin-1.3.0.131.zip \
+    && unzip metamod-bin-1.3.0.131.zip -d . \
+    && rm -r example_plugin \
+    && rm -r sdk \
+    && rm metamod-bin-1.3.0.131.zip
+
+RUN cp liblist.gam.bak liblist.gam
+RUN sed -i -E "s/gamedll_linux/\/\/gamedll_linux/g" liblist.gam
+RUN echo "\ngamedll_linux \"addons\/metamod\/metamod_i386\"" >> liblist.gam
+
 # ReHLDS
 WORKDIR /opt/hlds
 RUN wget https://github.com/dreamstalker/rehlds/releases/download/3.12.0.780/rehlds-bin-3.12.0.780.zip \
@@ -62,6 +79,8 @@ RUN curl -O -J -L https://dev-cs.ru/resources/76/download \
     && mv whblocker_data/whblocker_1_5_697/bin/linux whblocker \
     && rm -r whblocker_data \
     && rm whblocker_1_5_697.zip
+
+RUN apt-get remove unzip unrar-free curl wget -y
 
 EXPOSE 27015
 EXPOSE 27015/udp
