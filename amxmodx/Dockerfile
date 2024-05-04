@@ -13,20 +13,21 @@ RUN wget https://www.amxmodx.org/release/metamod-1.21.1-am.zip \
     && rm metamod-1.21.1-am.zip
 
 # Backup liblist to make it overridable.
-RUN cp liblist.gam liblist.gam.bak
-RUN sed -i -E "s/gamedll_linux/\/\/gamedll_linux/g" liblist.gam
-RUN echo "gamedll_linux \"addons/metamod/dlls/metamod.so\"" >> liblist.gam
-
-WORKDIR /opt/hlds/cstrike/addons/metamod
-ADD plugins.ini .
+RUN cp liblist.gam liblist.gam.bak \
+    && sed -i -E "s/gamedll_linux/\/\/gamedll_linux/g" liblist.gam \
+    && echo "gamedll_linux \"addons/metamod/dlls/metamod.so\"" >> liblist.gam
 
 # AMX Mod X
 WORKDIR /opt/hlds/cstrike
 RUN curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-base-linux.tar.gz | tar -zxvf - \
     && curl -sqL https://www.amxmodx.org/amxxdrop/1.10/amxmodx-1.10.0-git5467-cstrike-linux.tar.gz | tar -zxvf -
 
+WORKDIR /opt/hlds/cstrike/addons/metamod
+ADD plugins.ini .
+
 # Add user permissions.
-ADD users.ini /opt/hlds/cstrike/addons/amxmodx/configs
+WORKDIR /opt/hlds/cstrike/addons/amxmodx/configs
+ADD users.ini .
 
 RUN apt-get remove unzip curl wget -y
 
