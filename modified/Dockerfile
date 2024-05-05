@@ -94,11 +94,3 @@ RUN cd /opt/hlds/cstrike/addons \
 ADD plugins.ini /opt/hlds/cstrike/addons/metamod/plugins.ini
 
 RUN apt-get remove unzip unrar-free curl wget -y
-
-EXPOSE 27015
-EXPOSE 27015/udp
-VOLUME /opt/hlds
-
-WORKDIR /opt/hlds
-
-ENTRYPOINT ./hlds_run -game cstrike -strictportbind -ip 0.0.0.0 -port 27015 $LAUNCH_OPTIONS
