@@ -11,11 +11,11 @@ RUN cd /opt/hlds/cstrike \
     && mkdir -p ./addons/metamod
 
 RUN cd /opt/hlds/cstrike \
-    && wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.131/metamod-bin-1.3.0.131.zip \
-    && unzip metamod-bin-1.3.0.131.zip \
+    && wget https://github.com/theAsmodai/metamod-r/releases/download/1.3.0.149/metamod-bin-1.3.0.149.zip \
+    && unzip metamod-bin-1.3.0.149.zip \
     && rm -r example_plugin \
     && rm -r sdk \
-    && rm metamod-bin-1.3.0.131.zip
+    && rm metamod-bin-1.3.0.149.zip
 
 RUN cd /opt/hlds/cstrike \
     && cp liblist.gam.bak liblist.gam \
@@ -24,17 +24,17 @@ RUN cd /opt/hlds/cstrike \
 
 # ReHLDS
 RUN cd /opt/hlds \
-    && wget https://github.com/dreamstalker/rehlds/releases/download/3.12.0.780/rehlds-bin-3.12.0.780.zip \
-    && unzip rehlds-bin-3.12.0.780.zip -d ./rehlds \
+    && wget https://github.com/dreamstalker/rehlds/releases/download/3.13.0.788/rehlds-bin-3.13.0.788.zip \
+    && unzip rehlds-bin-3.13.0.788.zip -d ./rehlds \
     && cp -r rehlds/bin/linux32/* . \
     && rm -r rehlds \
-    && rm rehlds-bin-3.12.0.780.zip
+    && rm rehlds-bin-3.13.0.788.zip
 
 # ReAPI
 RUN cd /opt/hlds/cstrike \
-    && wget https://github.com/s1lentq/reapi/releases/download/5.22.0.254/reapi-bin-5.22.0.254.zip \
-    && unzip reapi-bin-5.22.0.254.zip -d . \
-    && rm reapi-bin-5.22.0.254.zip
+    && wget https://github.com/s1lentq/reapi/releases/download/5.24.0.300/reapi-bin-5.24.0.300.zip \
+    && unzip reapi-bin-5.24.0.300.zip -d . \
+    && rm reapi-bin-5.24.0.300.zip
 
 # Reunion
 RUN mkdir /opt/hlds/cstrike/addons/reunion
@@ -42,19 +42,17 @@ ADD reunion_mm_i386.so /opt/hlds/cstrike/addons/reunion/reunion_mm_i386.so
 
 # ReGame DLL
 RUN cd /opt/hlds/cstrike/dlls \
-    && wget https://github.com/s1lentq/ReGameDLL_CS/releases/download/5.21.0.576/regamedll-bin-5.21.0.576.zip \
-    && unzip regamedll-bin-5.21.0.576.zip -d regamedll \
+    && wget https://github.com/s1lentq/ReGameDLL_CS/releases/download/5.26.0.668/regamedll-bin-5.26.0.668.zip \
+    && unzip regamedll-bin-5.26.0.668.zip -d regamedll \
     && mv -f regamedll/bin/linux32/cstrike/dlls/cs.so cs.so \
     && rm -r regamedll \
-    && rm regamedll-bin-5.21.0.576.zip
+    && rm regamedll-bin-5.26.0.668.zip
 
-# Voice Transcoder
-# || true is a fix for the ZIP using backslash separators causing a non-zero exit code.
-RUN cd /opt/hlds/cstrike/addons \
-    && wget https://github.com/WPMGPRoSToTeMa/VoiceTranscoder/releases/download/v2017rc5/VoiceTranscoder_2017RC5.zip \
-    && mkdir VoiceTranscoder \
-    && unzip -j VoiceTranscoder_2017RC5.zip -d VoiceTranscoder || true \
-    && rm VoiceTranscoder_2017RC5.zip
+# ReVoice
+RUN cd /opt/hlds/cstrike \
+    && wget https://github.com/Garey27/revoice-plus/releases/download/v2.1.0/revoice_plus-bin-v2.1.0.zip \
+    && unzip revoice_plus-bin-v2.1.0.zip \
+    && rm revoice_plus-bin-v2.1.0.zip
 
 # ReAuthCheck
 RUN cd /opt/hlds/cstrike \
@@ -64,6 +62,18 @@ RUN cd /opt/hlds/cstrike \
     && rm -r linux \
     && rm -r windows \
     && rm reauthcheck_0.1.6.rar
+
+# ReSemiClip
+RUN cd /opt/hlds/cstrike \
+    && curl -O -J -L https://dev-cs.ru/resources/71/download \
+    && unzip resemiclip-2.4.3.zip \
+    && rm resemiclip-2.4.3.zip
+
+# Add Hitbox Fixer
+RUN cd /opt/hlds/cstrike \
+    && wget https://github.com/Garey27/hitbox_fixer/releases/download/1.1.4/hitbox_fix-bin-1.1.4.zip \
+    && unzip hitbox_fix-bin-1.1.4.zip \
+    && rm hitbox_fix-bin-1.1.4.zip
 
 # ReChecker
 RUN cd /opt/hlds/cstrike/addons \
