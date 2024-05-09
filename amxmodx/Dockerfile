@@ -9,11 +9,7 @@ RUN cd /opt/hlds/cstrike \
     && unzip metamod-1.21.1-am.zip \
     && rm metamod-1.21.1-am.zip
 
-# Backup liblist to make it overridable.
-RUN cd /opt/hlds/cstrike  \
-    && cp liblist.gam liblist.gam.bak \
-    && sed -i -E "s/gamedll_linux/\/\/gamedll_linux/g" liblist.gam \
-    && echo "gamedll_linux \"addons/metamod/dlls/metamod.so\"" >> liblist.gam
+ADD liblist.gam /opt/hlds/cstrike/liblist.gam
 
 # AMX Mod X
 RUN cd /opt/hlds/cstrike \

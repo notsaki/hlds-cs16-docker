@@ -1,5 +1,5 @@
-FROM tsaki/hlds-cs16-modified
-LABEL authors="tsaki"
+FROM tsaki/hlds-cs16-amxmodx
+LABEL authors=tsaki
 
 RUN apt-get update && apt-get install -y wget unzip p7zip-full
 
