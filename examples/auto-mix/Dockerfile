@@ -60,9 +60,6 @@ RUN cd /opt/hlds \
 ADD mapcycle.txt /opt/hlds/cstrike/mapcycle.txt
 
 # Create a map pool over mapcycle.
-RUN cp /opt/hlds/cstrike/mapcycle.txt addons/amxmodx/configs/maps.ini
-
-# Add user permissions.
-ADD users.ini /opt/hlds/cstrike/addons/amxmodx/configs/users.ini
+RUN cp /opt/hlds/cstrike/mapcycle.txt /opt/hlds/addons/amxmodx/configs/maps.ini
 
 RUN apt-get remove wget unzip p7zip-full
