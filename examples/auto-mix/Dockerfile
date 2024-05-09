@@ -3,11 +3,11 @@ LABEL authors=tsaki
 
 RUN apt-get update && apt-get install -y wget unzip p7zip-full
 
-# Get auto-mix plugin.
+# Get the auto-mix plugin.
 RUN cd /opt/hlds \
     && wget https://forums.alliedmods.net/attachment.php?attachmentid=119170 -O automix.zip \
     && unzip automix.zip -d automix \
-    && cp -r automix/Auto-Mix/cstrike . \
+    && cp -r automix/Auto-Mix/cstrike /opt/hlds \
     && rm -r automix \
     && rm automix.zip
 
