@@ -19,9 +19,7 @@ RUN cd /opt/hlds/cstrike/addons/amxmodx/scripting \
     && mv ./compiled/stats_pug.amxx ../plugins/stats_pug.amxx \
     && mv ./compiled/pimpspug.amxx ../plugins/pimpspug.amxx
 
-RUN cd /opt/hlds/cstrike/addons/amxmodx/configs \
-    && echo -e "stats_pug.amxx\n\
-pimpspug.amxx" >> plugins.ini
+ADD plugins.ini /opt/hlds/cstrike/addons/amxmodx/configs/plugins.ini
 
 # Add more maps.
 
